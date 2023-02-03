@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<!-- specify language (british english) and reading direction (left to right) -->
+<html lang="en-gb" dir="ltr">
+  
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- descriptive sentence that shows up in google search results -->
+    <meta name="description" content="Documentation on hardware, software and experimental implementation of molecular orientation fluorescence microscopy using polarisation cameras.">
+    <!-- title of the page (e.g. shown in tab or when bookmarked) -->
+    <title>Hardware | POLCAM-Hub</title>
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="images/favicon_io/site.webmanifest">
+    <!-- main stylesheet -->
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <!-- mathjax for math notation -->    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  </head>
+  
+  <body>    
+    <div class="wrapper">
+
+      <header>      
+        <div class="navigationbar">
+            <div class="logo_navigationbar">
+              <a href="index.html">
+                <img alt="logo" src="./images/logo_polcam.svg" width="170px">
+              </a>
+            </div>
+            <a href="contact.html">Contact</a>
+            <a href="software.html">Software</a>
+            <a href="hardware.html">Hardware</a>
+            <a href="index.html">Home</a>
+        </div>
+      </header>
+      
+      <div class="sidebar">
+        <p class="sidebar_title">STEP-BY-STEP GUIDE</p>
+        <ol>
+            <li><a href="#requirements" target="_self">Requirements</a></li>
+            <li><a href="#buying_a_polarisation_camera" target="_self">Buying a polarisation camera</a></li>
+            <li><a href="#installing_a_polarisation_camera" target="_self">Installing your polarisation camera</a></li>
+            <li><a href="#image_acquisition" target="_self">Acquisition software</a></li>
+            <li><a href="#camera_calibration" target="_self">Camera calibration</a></li>
+            <li><a href="#imaging_a_calibration_sample" target="_self">Imaging a calibration sample</a></li>
+            <li><a href="#excitation_light_and_photoselection" target="_self">Excitation light and photoselection</a></li>
+            <li><a href="#faqs" target="_self">FAQs</a></li>
+          </ol>
+      </div>
+
+      <main>
+        <section>
+          <h1>Hardware</h1>
+          
+          <p>This page describes the POLCAM hardware requirements and installation instructions. POLCAM was developed with the intention to keep the experimental setup and requirements simple.</p>
+
+          <h2 id="requirements">1. Requirements</h2>
+          <ul>
+            <li>Any <span style="text-decoration: underline;">widefield fluorescence microscope</span> that would normally use a camera for detection (i.e. not a confocal microscope) is in principle compatible with POLCAM. The only physical modification to the microscope would then involve placing a polarisation camera at a camera port.</li>
+            <li>Ideally, the microscope has a <span style="text-decoration: underline;">60x or 100x magnification objective</span>, although this is not a strict requirement.</li>
+            <li>If the <span style="text-decoration: underline;">polarisation of the excitation laser</span> of the microscope is not sufficiently randomly/circularly polarised at the sample, some modifications might also need to be made to the illumination to avoid biased detection of molecules with certain orientations (due to photoselection). How to find out whether this is necessary and how to implement this is explained in detail in section <a href="#excitation_light_and_photoselection" target="_self">excitation light and photoselection</a></li>
+          </ul>
+          
+
+          <h2 id="buying_a_polarisation_camera">2. Buying a polarisation camera</h2>
+          <p>Polarisation cameras are available from different vendors. The polarisation camera used in the POLCAM publication is the Kiralux Polarization Camera <a href="https://www.thorlabs.com/thorproduct.cfm?partnumber=CS505MUP">CS505MUP</a> (5 MP Monochrome CMOS Sensor, USB 3.0 Interface) from <a href="https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=13033">Thorlabs</a>. This model has since been replaced by the newer <a href="https://www.thorlabs.com/thorproduct.cfm?partnumber=CS505MUP1">CS505MUP1</a>, but is functionally identical. At this time, all instructions in this step-by-step guide are specific to the CS505MUP(1) camera, although this might be expanded to other polarisation cameras in the future. We note that (to our knowledge) the <a href="https://www.thorlabs.com/thorproduct.cfm?partnumber=CS505MUP">CS505MUP</a> and <a href="https://www.thorlabs.com/thorproduct.cfm?partnumber=CS505MUP1">CS505MUPa</a> cameras are the only polarisation cameras that are currently supported in the popular image acquisition software <a href="https://micro-manager.org/TSI">μ-Manager</a>.</p>
+
+          <p>A large selection of polarisation cameras from different manufacturers is also available at <a href="https://www.edmundoptics.co.uk/search/?criteria=polarisation%20camera&Tab=Products#">Edmund optics</a>. We note that all commercially available polarisation cameras use either the IMX250MZR or newer IMX264MZR sensor from Sony. The following table summarises some basic characteristics of a (non-exhaustive) list of commercially available polarisation cameras (last updated on 10-Nov-2022): </p>
+
+          <table class="tg">
+          <caption>Table 1 | Camera performance</caption>
+          <thead>
+            <tr>
+              <th>Camera</th>
+              <th>Sensor</th>
+              <th>QE</th>
+              <th>Read noise</th>
+              <th>Video output</th>
+              <th>Cost</th>
+              <th>Manufacturer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=13033">CS505MUP1</a></td>
+              <td>IMX264MZR (Sony)</td>
+              <td>~72%</td>
+              <td><2.5 e- RMS</td>
+              <td>USB 3.0</td>
+              <td>~£2.2k</td>
+              <td>Thorlabs</td>
+            </tr>
+            <tr>
+              <td><a href="https://www.edmundoptics.co.uk/p/ids-imaging-gv-5080fa-23-ip6567-polarized-monochrome-poe-camera/47096/">GV-5080FA-P-GL</a></td>
+              <td>IMX250MZR (Sony)</td>
+              <td>~72%</td>
+              <td>?</td>
+              <td>GigE (PoE)</td>
+              <td>~£2.6k</td>
+              <td>IDS Imaging</td>
+            </tr>
+            <tr>
+              <td><a href="https://www.edmundoptics.co.uk/p/lucid-vision-labs-phoenixt-phx050s1-pc-sony-imx264mzr-5-mp-polarized-monochrome-camera/46968/">PHX050S1-PC</a></td>
+              <td>IMX264MZR (Sony)</td>
+              <td>~72%</td>
+              <td>?</td>
+              <td>GigE (PoE)</td>
+              <td>~£1.1k</td>
+              <td>Lucid Vision Labs</td>
+            </tr>
+            <tr>
+              <td><a href="https://www.edmundoptics.co.uk/p/pl-d755mu-t-pol-5mp-polarized-mono-right-angle-usb-30-pixelink-camera/42005/">PL-D755MU-T-POL</a></td>
+              <td>IMX250MZR (Sony)</td>
+              <td>~72%</td>
+              <td>?</td>
+              <td>USB 3.0</td>
+              <td>~£3.5k</td>
+              <td>Pixelink</td>
+            </tr>
+          </tbody>
+          </table>
+
+          <table class="tg">
+          <caption>Table 2 | Image acquisition software support</caption>
+          <thead>
+            <tr>
+              <th>Camera</th>
+              <th>μ-Manager</th>
+              <th>Python</th>
+              <th>LabView</th>
+              <th>MATLAB</th>
+              <th>VB .NET</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=13033">CS505MUP1</a></td>
+              <td>yes</td>
+              <td>yes</td>
+              <td>yes</td>
+              <td>yes</td>
+              <td>yes</td>
+            </tr>
+            <tr>
+              <td><a href="https://www.edmundoptics.co.uk/p/ids-imaging-gv-5080fa-23-ip6567-polarized-monochrome-poe-camera/47096/">GV-5080FA-P-GL</a></td>
+              <td>no</td>
+              <td>yes</td>
+              <td>?</td>
+              <td>?</td>
+              <td>?</td>
+            </tr>
+            <tr>
+              <td><a href="https://www.edmundoptics.co.uk/p/lucid-vision-labs-phoenixt-phx050s1-pc-sony-imx264mzr-5-mp-polarized-monochrome-camera/46968/">PHX050S1-PC</a></td>
+              <td>no</td>
+              <td>yes</td>
+              <td>?</td>
+              <td>?</td>
+              <td>?</td>
+            </tr>
+            <tr>
+              <td><a href="https://www.edmundoptics.co.uk/p/pl-d755mu-t-pol-5mp-polarized-mono-right-angle-usb-30-pixelink-camera/42005/">PL-D755MU-T-POL</a></td>
+              <td>no</td>
+              <td>?</td>
+              <td>?</td>
+              <td>?</td>
+              <td>?</td>
+            </tr>
+          </tbody>
+          </table>
+
+
+          <h2 id="installing_a_polarisation_camera">3. Installing a polarisation camera</h2>
+          <p>Before installing the polarisation camera on a microscope, it is important to calculate the virtual pixel size to make sure that a minimal spatial sampling requirement is met. Otherwise, the output of polarisation camera image processing algorithms will not be accurate.</p>
+          <p>If you have a 60x oil-immersion objective and a microscope body from the same manufacturer (e.g. Nikon objective with a Nikon microscope body, or Olympus objective with an Olympus microscope body), installing your polarisation camera is very straightforward and you can skip straight to <strong>step 3.4</strong>. If not, you will have to calculate your optimal pixel size and calculate what additional magnification you need to reach optimal spatial sampling (<strong>step 3.1</strong> and <strong>step 3.2</strong>), buy two lenses and align them (<strong>step 3.3</strong>) following the instructions in <a href="#align_4f" target="_self"> section 3.3</a>.</p>
+
+          <h3>3.1 Calculating optimal pixel size</h3>
+          <p>The optimal pixel size required for optimal spatial sampling depends on a number of factors: the physical size of the pixels on the polarisation camera (typically 3.45 μm by 3.45 μm), the magnification of the objective, difference in the refractive index between the immersion medium (e.g. oil) and sample medium (e.g. water), and the emission wavelength. The optimal pixel size can be calculated using simulations:</p>
+
+          
+          <img src="images/optimal_pixelsize.png" alt="Graphs optimal pixel size">
+
+
+          <h3>3.2 Calculating experimental pixel size</h3>
+          <p>The experimental pixel size can be calculated using the following formula:
+          $$\text{pixel size (nm)} = 1000 \times \dfrac{\text{physical pixel size camera (μm)}}{\text{total magnification}}$$</p>
+          <p>For example, in the POLCAM publication, a 60x magnification oil objective (Nikon) was used, and the polarisation camera (CS505MUP, Thorlabs, physical pixel size of 3.45 μm by 3.45 μm) was placed directly at the camera port of a Nikon microscope body. Using the formula above, this combination results in a virtual pixel size of 57.5 nm:
+          $$\text{pixel size (nm)} = 1000 \times \dfrac{3.45 \text{ μm}}{60} = \text{57.5 nm}$$</p>
+
+          <table class="tg">
+          <caption>Table 3 | Pixel size (assuming 3.45 μm by 3.45 μm physical camera pixels)</caption>
+          <thead>
+            <tr>
+              <th>Objective </th>
+              <th>Virtual pixel size (without relay)</th>
+              <th>Virtual pixel size (with relay)</th>
+              <th>Wavelength range</th>
+              <th>Relay needed</th>
+              <th>Pixel size (with relay)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>100x</td>
+              <td>34.5 nm</td>
+              <td>34.5 nm</td>
+              <td>> 400 nm</td>
+              <td>no</td>
+              <td>n.a.</td>
+            </tr>
+            <tr>
+              <td>60x</td>
+              <td>57.5 nm</td>
+              <td>57.5 nm</td>
+              <td>> 600 nm</td>
+              <td>no</td>
+              <td>n.a.</td>
+            </tr>
+            <tr>
+              <td>40x</td>
+              <td>86.25 nm</td>
+              <td>...</td>
+              <td>...</td>
+              <td>yes</td>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td>20x</td>
+              <td>172.5 nm</td>
+              <td>...</td>
+              <td>...</td>
+              <td>yes</td>
+              <td>...</td>
+            </tr>
+            <tr>
+              <td>10x</td>
+              <td>345 nm</td>
+              <td>...</td>
+              <td>...</td>
+              <td>yes</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+          </table>
+
+          <p>Note that some microscope bodies (e.g. Nikon) often have a 1.5x or 2x magnification lens that can be flipped in and out of the imaging path to add an extra magnification factor. If this is flipped in, the total magnification is the magnification of the objective times the additional magnification. E.g., in the case of a 40x magnification objective with a 1.5x magnification lens in, the total magnification will be 60x.</p>
+          
+          <!--
+          <h3 id="aligning_4f">3.3 Selecting and aligning relay lenses</h3>
+          <p>Table 4 </p>
+          <p>Thorlabs parts list: Nikon camera port adapter (SM1A44), two achromatic doublet lenses (AC254-???-A-ML), two SM1-threaded standard 30 mm cage plates (CP33/M), two 30 mm cage plates with 35 mm cleaer aperture (CP37/M), cage assembly rods (ER?-P4), 3 Ø12.7 mm Stainless Steel Optical Posts (TR??/M) and Ø1/2" Pedestal Post Holders (PH??E/M) and 3 clamping forks (BE1/M), M6 x 1.0 cap screws (SH6MS16) and washers (W25S050).</p>
+          -->
+
+          <h3>3.4 Mounting the camera</h3>
+
+          <h4>3.4.1 Mounting a camera using a camera port adapter</h4>
+          <p>If you do not need relay lenses (i.e. you are using a 60x magnification objective) and your camera has a camera port adapter, you can simply screw the camera onto the port. An example for a Nikon microscope body is shown below:</p>
+
+          <img src="images/camera_at_port.png" alt="Camera mounted at camera port of Nikon microscope body">
+
+          <!--
+          <h4>3.4.2 Mounting a camera without a camera port adapter</h4>
+          <p>...</p>
+          -->
+
+
+          <h2 id="image_acquisition">4. Image acquisition</h2>
+          <p>Support of different programming languages and third party software will vary between polarisation camera models and vendors, but all should at least come with their own image acquisition software.</p>
+          <h3>Setting up the CS505MUP(1) camera in μ-Manager (Windows only)</h3>
+          <p>The CS505MUP(1) polarisation camera from Thorlabs can be set up in μ-Manager as follows:
+          <ol class="instructions_list">
+            <li><span style="text-decoration: underline;">Download ThorCam</span>: Download the latest version of the <a href="https://www.thorlabs.com/software_pages/ViewSoftwarePage.cfm?Code=ThorCam">ThorCam software</a> from the Thorlabs website. Double-click on the .exe file and follow the installation instructions. Restart your PC when the installation is finished if you are prompted to do so.</li>
+            <li><span style="text-decoration: underline;">Copy some ThorCam files into your μ-Manager installation folder</span>: When the ThorCam installation is finished, find the file Micro-Manager_README.txt in the ThorCam installation folder (usually in C:\Program Files\Thorlabs\Scientific Imaging\Scientific Camera Support\) and follow the instructions in the file. You will have to copy and paste some files.</li>
+            <li><span style="text-decoration: underline;">Add an "Imaging mode" group to the μ-Manager configuration settings</span>: By default, if you go live in μ-Manager, the camera will be set in "Intensity" imaging mode. There are ... imaging modes: Raw, Intensity, QuadView, Angle and Degree. You will likely always want to image in "Raw" mode. You can add a group to the configuration settings to easily switch between imaging modes. Click the '+' button underneath the configuration settings window and select the checkbox ImageType, give it a group name (e.g. "Imaging mode", or "Image type" or whatever you prefer) and click OK. There should now be a group in the main μ-Manager window that allows you to switch between different imaging modes using a dropdown list.</li>
+          </ol>
+          
+          <!--
+          <h2 id="camera_calibration">5. Camera calibration (optional)</h2>
+          <p>Bla bla bla...</p>
+
+
+
+          <h2 id="imaging_a_calibration_sample">6. Imaging a calibration sample</h2>
+          <p>Bla bla bla...</p>
+
+
+          
+          <h2 id="excitation_light_and_photoselection">7. Excitation light and photoselection</h2>
+          <p>Bla bla bla...</p>
+
+
+          
+          <h2 id="faqs">Frequently asked questions (FAQs)</h2>
+          <p>Bla bla bla...</p>
+          -->
+
+          <br></br><br></br>
+          
+        </section>
+      </main>
+    
+    </div>
+  </body>
+
+  <footer>
+    <p>Contact: eb758@cam.ac.uk</p>
+  </footer>
+
+</html>
+
