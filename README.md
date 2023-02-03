@@ -1,3 +1,3 @@
 # POLCAM-Hub
 
-Visit the [website](https://theleelab.github.io/POLCAM-site/)
+Visit the [website](https://TheLeeLab.github.io/POLCAM-site/)
