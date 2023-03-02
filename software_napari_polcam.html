@@ -9,7 +9,7 @@
     <!-- descriptive sentence that shows up in google search results -->
     <meta name="description" content="Documentation on hardware, software and experimental implementation of molecular orientation fluorescence microscopy using polarisation cameras.">
     <!-- title of the page (e.g. shown in tab or when bookmarked) -->
-    <title>Software | POLCAM-Hub</title>
+    <title>napari-polcam | POLCAM</title>
     <!-- favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon_io/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon_io/favicon-32x32.png">
@@ -51,69 +51,53 @@
           <h1>Software: napari-polcam</h1>
           
           <strong>napari-polcam</strong> is a <a href="https://napari.org/stable/">napari</a> plugin for processing and rendering multi-dimensional polarisation camera image data.
-          <p>Download the latest stable installer here: <a href="https://github.com/ezrabru/POLCAM-SR/raw/main/POLCAM-SR/POLCAM-SR.mlappinstall">Download installer</a></p>
+          <p>Download the latest version of the source code here: <a href="https://github.com/ezrabru/napari-polcam/archive/refs/heads/main.zip">Download source code</a></p>
 
           <!-- System requirements chapter -->
           <h2 id="system_requirements">System requirements</h2>
           <ul>
-            <li>A working installation of napari (follow instruction on the <a href="https://napari.org/stable/">napari webiste</a>)</li>
-            <li>Python packages: </li>
-            <li>The software has been tested on Mac (macOS Monterey Version 12.6) and Windows (Windows 11 Pro Version 22H2) computers.</li>
+            <li>A working installation of napari</li>
+            <li>The software has been tested on Mac (macOS Monterey Version 12.6) and Windows (Windows 11 Pro Version 22H2) computers, using Python version 3.9.13 and napari version 0.4.17.</li>
           </ul>
 
           <!-- Installation guide chapter -->
           <h2 id="installation_guide">Installation guide</h2>
-          <p>
-            POLCAM-SR can be installed as a MATLAB App by downloading the installer and following the instructions. <a href="https://github.com/ezrabru/POLCAM-SR/raw/main/POLCAM-SR/POLCAM-SR.mlappinstall">Click here</a> to download the latest stable installer. After installation is finished, the app can be opened from the "APPS" tab in MATLAB (red arrow in screenshot below).
-          </p>
 
-          <img src="images/software/polcam_sr/matlab_apps_tab.png" alt="Screenshot of the MATLAB graphical user interface indicating where the POLCAM-SR App can be accessed.">
-
+          <ol>
+            <li>
+              <p>Download the latest version of the source code (<a href="https://github.com/ezrabru/napari-polcam/archive/refs/heads/main.zip">download source code</a>) and unzip the folder.</p>
+            </li>
+            <li>
+              <p>If napari is not already installed, follow the installation instruction on the <a href="https://napari.org/stable/">napari webiste</a>.</p>
+            </li>
+            <li>
+              <p>Open a terminal in the virtual environment in which napari has been installed.</p>
+            </li>
+            <li>
+              <p>In the terminal, navigate to the folder 'napari-polcam-main' (the folder that contains the file MANIFEST.in, setup.cfg, etc.).</p>
+            </li>
+            <li>
+              <p>In the terminal, write: pip install .</p>
+            </li>
+            <li>
+              <p>If successful, you should now be able to access napari-polcam as a plugin in napari under 'Plugins > main (napari-polcam)'. In the future, we would like to make napari-polcam available from the <a href="https://www.napari-hub.org/">napari hub</a>.</p>
+            </li>
+          </ol>
           <p>
-            The typical install time on a standard desktop computer takes a few minutes. If you encounter any issues during installation, please email us at <a href="mailto:eb758@cam.ac.uk?subject=POLCAM-SR question">eb758@cam.ac.uk</a> or <a href="https://github.com/ezrabru/POLCAM-SR/issues">report an issue</a> on the github repository.
+            The typical install time on a standard desktop computer takes a few minutes. If you encounter any issues during installation, please email us at <a href="mailto:eb758@cam.ac.uk?subject=napari-polcam question">eb758@cam.ac.uk</a> or <a href="https://github.com/ezrabru/POLCAM-SR/issues">report an issue</a> on the github repository.
           </p> 
           
 
           <!-- Demo chapter -->
           <h2 id="demo">Demo</h2>
-          <p>A test dataset (TAB-PAINT of alpha-synuclein fibrils using Nile red) is included in the installation of POLCAM-SR. The following are some instructions to walk the user through a typical data processing pipeline in POLCAM-SR using this test dataset.</p>          
+          <p>Using napari-polcam is very straightforward. Load the tif stack by dragging it into the napari gui. Select the dataset in the layer list. In the settings panel in napari-polcam, pick a polariser unit option, an interpolation method (cubic spline interpolation is recommended) and set a background (e.g. the minimum intensity value in the dataset). To convert the dataset to different formats, click any of the buttons in the basic processing panel or colourmap rendering panel. An example of a HSVmap rendering of a test dataset (a z-stack of a silica microsphere coated with a DPPC + 40% cholesterol lipid bilayer, labeled with Nile red):</p>
           
-          <ol>
-            <li>
-              <p><strong>Opening a dataset</strong>: In the POLCAM-SR app main window, select 'File > Open samples... > Fibrils' to open the testdataset (alternatively use the shortcut 'ctrl + shift + F'). A new window will open showing the first frame in the dataset. Clicking the arrow buttons on this window allows scrolling through the images (or use the left and right arrow keys on your keyboard).</p>
-            </li>
+          <p><img src="images/software/napari_polcam/gui_testdata.png" alt="Screenshot of the napari-polcam gui with test data."></p>
 
-            <li>
-              <p><strong>Localisation and orientation estimation</strong>: Select 'Process > Single-molecule... > Localise' to open the localisation window. Localisation requires 5 classes of input parameters. For the test dataset the settings as displayed in the screenshot below can be used:</p>
-              <img src="images/software/polcam_sr/localisation_settings_testdata_fibrils.png" alt="Screenshot of the localisation gui window.">
-              <p>To see the candidate localisation that the software will pick out as an overlay on the image data, turn on "Live preview" in box 5 in the localisation window. Green boxes will mark localisation candidates that will be updated as the user changes settings (e.g. the DoG threshold slider). To start localisation, click the "Start localisation" button on the bottom right corner of the window. The progress will be shown on the main POLCAM-SR gui.</p>
-              <p>This is an example where the DoG threshold was set too low:
-              <img src="images/software/polcam_sr/localisation_load_testdata_fibrils_live_preview_too_many.png" alt="Screenshot of the localisation result."></p>
-              This is an example where the DoG threshold was set correctly:
-              <p><img src="images/software/polcam_sr/localisation_load_testdata_fibrils_live_preview_good.png" alt="Screenshot of the localisation result."></p>
-              <p>When localisation has finished, a results file will be saved in the same folder as the images and a new window will open showing a colour coded scatter plot of the dataset. By default the colour coding is the in-plane angle phi.</p>
-              <img src="images/software/polcam_sr/localisation_result.png" alt="Screenshot of the localisation result.">
-            </li>
 
-            <li>
-              <p><strong>Filtering</strong>: After localisation has finished, filtering can be applied to the localisations to remove e.g. localisations with less than 500 detected photons. To open the filtering window, select 'Process > Single-molecule... > Filter'. Minimum and maximum threhold values for different parameters can be changed in the "Filtering parameters" panel. To help with selecting thresholds, the data can be plotted as a colour coded scatter plot, 1D histogram or 2D histogram. To save a the filtered localisations, click "Save filtered localisations".</p>
-            </li>
-            <p><img src="images/software/polcam_sr/filtering_testdata_fibrils.png" alt="Screenshot of the filtering window."></p>
-
-            <li>
-              <p><strong>Drift-correction</strong>: The localisation can be drift-corrected by selecting 'Process > Single-molecule... > Correct drift'. This opens a new window that shows the (filtered) localisations as a scatter plot colour coded by the frame number (i.e. "time") to make it easy to see if there is any drift. Select RCC (redundant cross correlation) and set "Frames per segment" to 1000, and "Spatial binsize" to 50 nm. Click on "Calculate drift". When finished, the scatter plot wil display the drift corrected data. It is possible to toggle between displaying the localisations "before" and "after" drift correction using the toggle button. To accept this round of drift correction, click "Apply drift correction". The user can then choose to save the result (by clicking "Save drift-corrected localisations"), or apply more rounds of drift correction (by clicking "Calculate drift" again).</p>
-            </li>
-            <p><img src="images/software/polcam_sr/drift_correction_testdata_fibrils.png" alt="Screenshot of the drift correction window."></p>
-
-            <li>
-              <p><strong>Visualization</strong>: Some tools are included in POLCAM-SR to generate formatted and colour-coded scatter plots of the localisations, generate histograms of different parameters and plot the localisation rate versus time. These tools can be accessed by clicking 'Analyse > Plot localisations...' and selecting one of the options.</p>
-              <p>By default the figure rendering theme in POLCAM-SR is set to 'dark' (black background). This can be changed at any time by selecting 'POLCAM-SR > Settings > Figure settings... > Theme'.</p>
-            </li>
-          </ol>
-          
           <!-- Help chapter -->
-          <h2 id="help">Report an issue</h2>
-          If you encounter any issues during installation or use of the software, please email us at <a href="mailto:eb758@cam.ac.uk?subject=POLCAM-SR question">eb758@cam.ac.uk</a> or <a href="https://github.com/ezrabru/POLCAM-SR/issues">report an issue</a> on the github repository.
+          <h2 id="help">Help</h2>
+          If you encounter any issues during installation or use of the software, please email us at <a href="mailto:eb758@cam.ac.uk?subject=napari-polcam question">eb758@cam.ac.uk</a> or <a href="https://github.com/ezrabru/napari-polcam/issues">report an issue</a> on the github repository.
 
           <br></br><br></br>
           

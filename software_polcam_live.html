@@ -9,7 +9,7 @@
     <!-- descriptive sentence that shows up in google search results -->
     <meta name="description" content="Documentation on hardware, software and experimental implementation of molecular orientation fluorescence microscopy using polarisation cameras.">
     <!-- title of the page (e.g. shown in tab or when bookmarked) -->
-    <title>Software | POLCAM-Hub</title>
+    <title>POLCAM-Live | POLCAM</title>
     <!-- favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon_io/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon_io/favicon-32x32.png">
@@ -39,48 +39,51 @@
       <div class="sidebar">
         <p class="sidebar_title">CONTENT</p>
         <ol>
-            <li><a href="#polcam_sr" target="_self">POLCAM-SR: Single-molecule</a></li>
-            <li><a href="#polcam_live" target="_self">POLCAM-Live: Live processing</a></li>
-            <li><a href="#napari_polcam" target="_self">napari-polcam: n-Dim image data</a></li>
-          </ol>
+          <li><a href="#system_requirements" target="_self">System requirements</a></li>
+          <li><a href="#installation_guide" target="_self">Installation guide</a></li>
+          <li><a href="#demo" target="_self">Demo</a></li>
+          <li><a href="#help" target="_self">Help</a></li>
+        </ol>
       </div>
 
       <main>
         <section>
-          <h1>Software</h1>
+          <h1>Software: POLCAM-Live</h1>
           
-          <p>Three software packages are available for POLCAM image processing:
-            <ul>
-              <li>
-                <a href="#polcam_sr" target="_self"><strong>POLCAM-SR:</strong></a> A MATLAB plugin for single-molecule and diffraction-limited polarisation camera image processing (<a href="https://github.com/ezrabru/POLCAM-SR">GitHub </a>).
-              </li>
-              <li>
-                <a href="#polcam_live" target="_self"><strong>POLCAM-Live:</strong></a> A standalone MATLAB application for live polarisation camera image processing and visualization (<a href="https://github.com/ezrabru/POLCAM-Live">GitHub</a>).
-              </li>
-              <li>
-                <a href="#napari_polcam" target="_self"><strong>napari-polcam:</strong></a> A napari plugin for fast processing of multi-dimensional polarisation camera image data (<a href="https://github.com/ezrabru/napari-polcam">GitHub</a>).
-              </li>
-            </ul>
-          </p>
+          <p><strong>POLCAM-Live</strong> is a standalone MATLAB application for live polarisation camera image processing and visualization during image acquisition. The source code is available on github at <a href="https://github.com/ezrabru/POLCAM-Live">https://github.com/ezrabru/POLCAM-Live</a></p>
 
-          <!-- <h2 class="tableofcontents">Table of contents</h2>
+          <p>Download the latest stable installer here: <a href="https://github.com/ezrabru/POLCAM-Live/raw/main/POLCAM-Live/POLCAM_Live/for_redistribution/MyAppInstaller_web.exe">Download installer</a></p>
+
+          <!-- System requirements chapter -->
+          <h2 id="system_requirements">System requirements</h2>
           <ul>
-            <li><a href="#polcam_sr" target="_self">POLCAM-SR</a></li>
-            <li><a href="#polcam_live" target="_self">POLCAM-Live</a></li>
-            <li><a href="#napari_polcam" target="_self">napari-polcam</a></li>
-          </ul> -->
-          
-          <h2 id="polcam_sr">POLCAM-SR</h2>
-          <p>POLCAM-SR is a MATLAB plugin for single-molecule and diffraction-limited polarisation camera image processing.</p>
-          <p>The plugin installer and source code are available on the <a href="https://github.com/ezrabru/POLCAM-SR">POLCAM-SR repository</a> on GitHub.</p>
+            <li>MATLAB license</li>
+            <li>MATLAB Toolboxes: Parallel Computing, Optimization, Image processing, Curve fitting, Statistics and Machine Learning</li>
+            <li>The software has been tested on Windows (Windows 11 Pro Version 22H2). The software was developed and tested using MATLAB version R2022a.</li>
+          </ul>
 
-          <h2 id="polcam_live">POLCAM-Live</h2>
-          <p>POLCAM-Live is a standalone MATLAB application for live polarisation camera image processing and visualization during experiments.</p>
-          <p>The installer and source code are available on the <a href="https://github.com/ezrabru/POLCAM-Live">POLCAM-Live repository</a> on GitHub.</p>
-
-          <h2 id="napari_polcam">napari-polcam</h2>
-          <p>napari-polcam is a <a href="https://napari.org/stable/">napari</a> plugin for fast processing of multi-dimensional polarisation camera image data.</p>
+          <!-- Installation guide chapter -->
+          <h2 id="installation_guide">Installation guide</h2>
+          <p>
+            POLCAM-Live can be installed as a standalone MATLAB App by downloading the installer and following the instructions. <a href="https://github.com/ezrabru/POLCAM-Live/raw/main/POLCAM-Live/POLCAM_Live/for_redistribution/MyAppInstaller_web.exe">Click here</a> to download the latest stable installer.
+          </p>
+          <p>
+            The typical install time on a standard desktop computer takes a few minutes. If you encounter any issues during installation, please email us at <a href="mailto:eb758@cam.ac.uk?subject=POLCAM-Live question">eb758@cam.ac.uk</a> or <a href="https://github.com/ezrabru/POLCAM-Live/issues">report an issue</a> on the github repository.
+          </p> 
           
+
+          <!-- Demo chapter -->
+          <h2 id="demo">Demo</h2>
+          <p>To use POLCAM-Live during acquisition, data needs to be written away as individual images instead of stacks (this is possible in Micro-Manager). In POLCAM-Live, start by setting the conversion settings to match the system. Then set the watched folder by navigating to the folder in which the images are being written away. Now you are ready to click the "Start Conversion" button. The display of the processed images is completely independent of image acquisition. The results that are being displayed are not being saved.</p>          
+          
+          <img src="images/software/polcam_live/screenshot_gui.png" alt="Screenshot of the POLCAM-Live gui.">
+
+          
+          
+          <!-- Help chapter -->
+          <h2 id="help">Help</h2>
+          If you encounter any issues during installation or use of the software, please email us at <a href="mailto:eb758@cam.ac.uk?subject=POLCAM-Live question">eb758@cam.ac.uk</a> or <a href="https://github.com/ezrabru/POLCAM-Live/issues">report an issue</a> on the github repository.
+
           <br></br><br></br>
           
         </section>
