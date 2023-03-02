@@ -382,6 +382,10 @@ td {
   background-color: black;
 }
 
+/* Put logo (links to the homepage) to the left on the navigation bar. */
+.logo_navigationbar img {
+  padding: 0px;
+}
 
 /* Small border below the header for some space */
 .navigationbar-border {
