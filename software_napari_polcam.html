@@ -22,18 +22,33 @@
   <body>
     <div class="wrapper">
     
-      <header>      
+      <header>
+
         <div class="navigationbar">
-            <div class="logo_navigationbar">
-              <a href="index.html">
-                <img alt="logo" src="./images/logo_polcam.svg" width="170px">
-              </a>
+          <!-- logo on top left of navigation bar -->
+          <div class="logo_navigationbar">
+            <a href="index.html">
+              <img alt="logo" src="./images/logo_polcam.svg" width="170px">
+            </a>
+          </div>
+          <!-- 'Contact' link on top right of navigation bar -->
+          <a href="contact.html">Contact</a>
+          <!-- 'Software' dropdown on top right of navigation bar -->
+          <div class="dropdown">
+            <button class="dropbtn">Software 
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="software_polcam_sr.html">POLCAM-SR</a>
+              <a href="software_polcam_live.html">POLCAM-Live</a>
+              <a href="software_napari_polcam.html">napari-polcam</a>
             </div>
-            <a href="contact.html">Contact</a>
-            <a href="software.html">Software</a>
-            <a href="hardware.html">Hardware</a>
-            <a href="index.html">Home</a>
+          </div> 
+          <!-- 'Hardware' and 'Home' link on top right of navigation bar -->
+          <a href="hardware.html">Hardware</a>
+          <a href="index.html">Home</a>
         </div>
+        
       </header>
       
       <div class="sidebar">
