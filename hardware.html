@@ -285,6 +285,7 @@
 
 
           <h2 id="image_acquisition">4. Image acquisition</h2>
+
           <p>Support of different programming languages and third party software will vary between polarisation camera models and vendors, but all should at least come with their own image acquisition software.</p>
           <h3>Setting up the CS505MUP(1) camera in μ-Manager (Windows only)</h3>
           <p>The CS505MUP(1) polarisation camera from Thorlabs can be set up in μ-Manager as follows:
@@ -294,12 +295,59 @@
             <li><span style="text-decoration: underline;">Add an "Imaging mode" group to the μ-Manager configuration settings</span>: By default, if you go live in μ-Manager, the camera will be set in "Intensity" imaging mode. There are ... imaging modes: Raw, Intensity, QuadView, Angle and Degree. You will likely always want to image in "Raw" mode. You can add a group to the configuration settings to easily switch between imaging modes. Click the '+' button underneath the configuration settings window and select the checkbox ImageType, give it a group name (e.g. "Imaging mode", or "Image type" or whatever you prefer) and click OK. There should now be a group in the main μ-Manager window that allows you to switch between different imaging modes using a dropdown list.</li>
           </ol>
           
+
+          <h2 id="camera_calibration">5. Camera calibration</h2>
+
+          <p>
+            Why calibrate your camera? If you want to compare the intensities of images recorded on different instruments or images recorded with different acquisition settings, you need to convert the pixel values from analog-to-digital (ADU) units to photons:
+          </p>
+          <p align="center">
+            intensity (e-) = [intensity (ADU) - offset (ADU)]/gain (ADU/e-)
+          </p>
+          <p align="center">
+            intensity (photons) = intensity (e-)/QE (e-/photon)
+          </p>
+          <p>
+            Any analysis that takes photon statistics into account (<em>e.g.</em>, many localisation algorithms for SMLM) will ask you for the camera gain and offset to do this conversion internally. The offset and gain can be measured by doing a camera calibration which involves recording uniform intensity images at different brightnesses. CMOS cameras (at the moment all commercially available polarisation cameras are likely CMOS) have a pixel-dependent offset, gain, and read noise. In POLCAM-SR, you can load the offset and gain maps to correct for any pixel-dependence before performing any processing. There also is an option to instead input an average offset and gain, but we highly recommend using pixel-dependent offset and gain maps.
+          </p>
+          <h3 id="camera_calibration">Instructions for performing a camera calibration</h3>
+          <p>Calibrating your camera is very easy when your microscope has a brightfield lamp with an intensity that you can vary. You will record a few movies where you shine light directly onto the camera sensor. You will record four (or more) of these movies, where for each movie, the intensity of the light your recording is different (but constant within the movie).  Follow the following steps:
+            <ol class="instructions_list">
+              <li>Place a piece of lens tissue on your sample holder (kind of as if it were a microscope sample). When the brightfield lamp is turned on, the light will pass through the tissue and get diffused so you get a nice uniform intensity profile on your camera sensor. (If this doesn't work for you, you can improvise and use some other setup. Light just needs to hit the sensor and the intensity profile of the images you record should be approximately uniform.)</li>
+              <li>Turn the brightfield lamp on and acquire 20.000 frames (or more) at a low intensity. Call the stack 'int1.tif'. It is important to follow the naming convention for the analysis code to work later on.</li>
+              <li>Repeat the previous step multiple times, each time using a higher intensity of the brightfield lamp. Call the stacks 'int2.tif', 'int3.tif' and 'int4.tif' etc.</li>
+              <li>Acquire 20.000 dark frames (all lights and lasers off, or you screw the cap on the camera) and call the stack 'dark.tif'</li>
+              <li>Use the following MATLAB code to analyse the calibration data: <a href = "https://github.com/TheLeeLab/cameraCalibrationCMOS/archive/refs/heads/main.zip">Download</a> (source code and instructions also on <a href = "https://github.com/TheLeeLab/cameraCalibrationCMOS">GitHub</a>) </li>
+              <li>Open the script <em>cameraCalibration.m</em> in MATLAB.</li>
+              <li>In the script, edit the input parameter "directory" to point to the directory where you saved all the movies. All the movies should be in one folder (without subfolders). Then edit the input parameter "power_ids" (1xn cell) to match the number of movies you recorded at different intensities (<em>e.g.</em>, if you recorded at four intensities excluding the dark stack, the value of power_ids should be = {'int1','int2','int3','int4'}).</li>
+              <li>Run the script. it might take a while as many frames need to be processed.</li>
+              <li>When the script is finished, a new folder titled "calibration results" will have been created that contains tif images of the offset and gain (amongst other things). Save these, as you'll use them everytime you process polarisation camera data.</li>
+            </ol>
+          </p>
+          <p> <u>Some troubleshooting and tips</u>:
+            <ul>
+              <li>
+                <strong>How many frames to record:</strong> The more frames you measure, the better. If you just want an average offset, variance and gain, 100 frames is enough. If you have an sCMOS camera and want to get pixel-dependent gain, offset and variance maps, you should take more than 100 frames for each stack. Aim for something on the order of 10k-60k frames per intensity level (these numbers come from the methods section of <a href="https://doi.org/10.1038/Nmeth.2488">Huang <em>et al.</em></a> and <a href="https://doi.org/10.1038/s41598-017-14762-6">Diekmann <em>et al.</em></a>). I know that's a lot of data. When recording these long stacks (especially when you are calibrating the full chip) MicroManager or whatever software you are using for image acquisition might start chopping up the stacks into 'dark_0.tif', 'dark_1.tif', 'dark_2.tif' etc. The code will automatically group these stacks. The code also never reads a whole stack into memory, only a single frame at a time.
+              </li>
+              <li>
+                <strong>How many movies to record and how to pick intensity levels:</strong> The more different intensities you measure, the better your estimate of the gain will be. In principle 2 are enough, but to have more confidence in the results, use at least 4 levels. Ideally, 1) the lowest intensity level has pixel values close to the dark image, 2) the highest intensity level has pixel values close to the maximum pixel values you see in your data and 3) the other intensity levels are more or less equally spaced between the lowest and highest intensity levels.
+              </li>
+              <li>
+                <strong>If you don't have a brightfield lamp on your microscope:</strong> If you don't have a brightfield lamp on your microscope, you can look for another stable lamp (<em>e.g.</em>, desk lamp) and layer lens tissues to decrease the intensity in steps.
+              </li>
+              <li>
+                The brightness of your lamp should be constant during each stack. If your lamp is unstable or has a fluctuating brightness, this will mess up the calibration. <a href="https://doi.org/10.1038/s41598-017-14762-6">Diekmann <em>et al.</em></a> used a TN-LED laptop screen as a light source.
+              </li>
+            </ul>
+          </p>
+
+
+
+
+
+
+
           <!--
-          <h2 id="camera_calibration">5. Camera calibration (optional)</h2>
-          <p>Bla bla bla...</p>
-
-
-
           <h2 id="imaging_a_calibration_sample">6. Imaging a calibration sample</h2>
           <p>Bla bla bla...</p>
 
